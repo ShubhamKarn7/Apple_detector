@@ -1,0 +1,19 @@
+version: '4.21.1'
+services:
+  app:
+    build: .
+    volumes:
+      - .:/apples_detector
+    image: app:apples_detector
+    container_name: apples_container
+    command: uvicorn main:app
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_container
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d
+    depends_on:
+      - app
